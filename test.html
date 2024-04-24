@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor Streaming</title>
+  <!-- Incluir la biblioteca hls.js -->
+  <script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>
+  <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+  <link href="https://vjs.zencdn.net/7.19.2/video-js.css" rel="stylesheet" />
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-size: cover;
+      background-color: #f2f2f2;
+    }
+
+    /* Estilos para el encabezado */
+    h1 {
+      text-align: center;
+      margin-top: 15px;
+      color: aquamarine;
+      padding: 25px;
+    }
+
+    h2{
+    text-align: center;
+      margin-top: 20px;
+      color: rgb(43, 162, 231);
+    }
+
+    /* Estilos para el video y controles */
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .controls {
+      position: relative;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    .controls button {
+      cursor: pointer;
+      color: white;
+      background-color: #2ba1cf;
+      border: none;
+      padding: 6px 12px;
+      margin: 0 5px;
+      border-radius: 3px;
+    }
+
+    .controls button:hover {
+      background-color: #0ce016;
+    }
+
+    .controls button:disabled {
+      background-color: #e10b0b;
+      cursor: not-allowed;
+    }
+
+    .video-js {
+      width: 100%;
+      max-width: 800px; /* Mismo ancho máximo que el contenedor */
+      margin: 0 auto; /* Centrar horizontalmente */
+      text-align: center; /* Centrar el contenido */
+    }
+
+    /* Estilos para el footer */
+    footer {
+      background-color: black;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Advanced Multimedia Services</h1>
+  <h2>Practice 2: Node Media Server Streaming </h2>
+
+  <div class="video-container">
+    <!-- Video Elemento -->
+    <!-- Contenedor del reproductor de video -->
+    <video id="videoPlayer" controls width="640" height="360"></video>
+  </div>
+  <div class="controls">
+    <button id="downloadBtn">Record Video</button>
+  </div>
+  <footer>
+    <p>© 2024 emt00025 - amy00002. All rights reserved.</p>
+  </footer>
+
+    <!-- Incluir el script de flv.js -->
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.5.0/dist/flv.min.js"></script>
+    <script>
+        if (flvjs.isSupported()) {
+            var videoElement = document.getElementById('videoPlayer');
+            var flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                url: 'http://192.168.0.16:8000/live/deneme.flv' // Reemplaza "NGROK" con la ruta que te asigna ngrok
+            });
+            flvPlayer.attachMediaElement(videoElement);
+            flvPlayer.load();
+            flvPlayer.play();
+        } else {
+            console.error('FLV.js is not supported');
+        }
+
+      // Botón de descarga
+      document.getElementById('downloadBtn').addEventListener('click', function() {
+        var sourceURL = "http://192.168.0.16:8000/live/deneme.flv";// Reemplaza "NGROK" con la ruta que te asigna ngrok
+        if (sourceURL) {
+          var a = document.createElement('a');
+          a.href = sourceURL;
+          a.download; // Descargar Archivo
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } else {
+          alert('The URL of the transmission could not be obtained.');
+        }
+      });
+  </script>
+</body>
+</html>
